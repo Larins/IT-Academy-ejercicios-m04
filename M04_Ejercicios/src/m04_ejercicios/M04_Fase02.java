@@ -18,7 +18,7 @@ public class M04_Fase02 {
 		
 		//Declarar la variable para el precio total de la comida.
 		
-		int ticket = 0;
+		int subtotal = 0;
 		
 		//Declarar y poblar el array con los platos del menú.
 		
@@ -49,25 +49,47 @@ public class M04_Fase02 {
 		        System.out.println("\t" + key + ":\t\t" + menu.get(key) + " €");
 		     }
 		     
-		     String pedido = (String) JOptionPane.showInputDialog(null, "Escoge el plato deseado:",
-		         "Restaurante Lara", JOptionPane.QUESTION_MESSAGE, null, platos, platos[0]); 
-		     System.out.println("\nLos platos pedidos hasta ahora son: \n\n\t" + pedido);
+		//Pasamos a tomarle nota al cliente.
+		     
+		     System.out.println("\nApuntaremos aquí los platos que nos indiques:\n");
+		     
+		//Declaramos una variable que nos servirá para seguir iterando si el cliente desea más platos.
 		     
 		     int pedirmas = 0;
 		     
+		//Declaramos un ArrayList donde iremos almacenando los precios de cada plato pedido por el cliente.
+		     
+		     List<Integer> preciopedido = new ArrayList<Integer>();
+		
+		//Lanzamos el bucle while, que tomará nota de los platos que sucesivamente vaya pidiendo el cliente.
+		     
 		     while (pedirmas == JOptionPane.YES_OPTION) {	
 		    	 
-		    	 pedirmas = JOptionPane.showConfirmDialog(null,"¿Deseas tomar algo más?","Restaurante Lara",JOptionPane.YES_NO_OPTION);
+			    String platopedido = (String) JOptionPane.showInputDialog(null, "Escoge el plato deseado:","Restaurante Lara", JOptionPane.QUESTION_MESSAGE, null, platos, platos[0]); 
+				 
+			    //Vamos poblando el ArrayList con los precios de cada plato pedido por el cliente.
+			     
+			    preciopedido.add(menu.get(platopedido));
+
+			    //Y calculamos un subtotal, sumando esos precios.
+			     
+			 	subtotal = subtotal + menu.get(platopedido);
+		        
+			    //Y le vamos recordando al cliente qué es lo que ha ido pidiendo.
+			     
+			    System.out.println("\t" + platopedido + ":\t\t" + menu.get(platopedido) + "€" + "\t\tSubtotal: " + subtotal + "€");
+		        
+			    //Le vamos preguntando al cliente si desea añadir algún plato más. 
+			
+			     pedirmas = JOptionPane.showConfirmDialog(null,"¿Deseas pedir algo más?","Restaurante Lara",JOptionPane.YES_NO_OPTION);
 		    	 
-		    	 if (pedirmas == JOptionPane.NO_OPTION){
-					System.out.println("\nGracias por su pedido.");
+			     //Mientras (while) el cliente vaya diciendo que quiere pedir otro plato, seguirá iterando el bucle. Si dice que no, se cierra.	
+		    	 
+			     if (pedirmas == JOptionPane.NO_OPTION){
+					System.out.println("\nGracias por tu pedido.\nTu cuenta asciende a " + subtotal + "€.");
 					System.exit(0);
 				}
-				else if (pedirmas == JOptionPane.YES_OPTION){
-					String pedidoextra = (String) JOptionPane.showInputDialog(null, "Escoge el siguiente plato deseado:", "Restaurante Lara", JOptionPane.QUESTION_MESSAGE, null, platos, platos[0]); 
-					System.out.println("\t" + pedidoextra);
-			    }
-		    } 
-	}
 
+	        }   
+	}
 }
