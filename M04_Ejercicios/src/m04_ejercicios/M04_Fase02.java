@@ -1,5 +1,6 @@
 package m04_ejercicios;
 import java.util.*;
+import javax.swing.*;
 
 public class M04_Fase02 {
 	
@@ -21,7 +22,7 @@ public class M04_Fase02 {
 		
 		//Declarar y poblar el array con los platos del menú.
 		
-		String[] platos = {"Ensalada de la casa", "Escalivada con anchoas", "Espinacas a la catalana", "Tortilla de alcachofas", "Macarrones boloñesa", "Fajitas de pollo", "Alubias con chorizo", "Pepito de ternera"};
+		String[] platos = {"Ensalada de la casa", "Escalivada con anchoas", "Canelones de espinaca", "Tortilla de alcachofas", "Macarrones boloñesa", "Fajitas de pollo", "Alubias con chorizo", "Pepito de ternera"};
 					
 		//Declarar y poblar el array con los precios de los platos.
 		
@@ -35,10 +36,38 @@ public class M04_Fase02 {
 			   menu.put(platos[i], precios[i]);
 			}
 
+		//Printamos el menú por consola.
 		
-		System.out.println(menu);
-		
+		     Set<String> keys = menu.keySet();
+		     Iterator<String> iter = keys.iterator();
+		     
+		     System.out.println("RESTAURANTE LARA\nMENÚ A LA CARTA\nEscoge el plato deseado:\n");
+		     
+		     while(iter.hasNext()){
+		        String key = iter.next();
 
+		        System.out.println("\t" + key + ":\t\t" + menu.get(key) + " €");
+		     }
+		     
+		     String pedido = (String) JOptionPane.showInputDialog(null, "Escoge el plato deseado:",
+		         "Restaurante Lara", JOptionPane.QUESTION_MESSAGE, null, platos, platos[0]); 
+		     System.out.println("\nLos platos pedidos hasta ahora son: \n\n\t" + pedido);
+		     
+		     int pedirmas = 0;
+		     
+		     while (pedirmas == JOptionPane.YES_OPTION) {	
+		    	 
+		    	 pedirmas = JOptionPane.showConfirmDialog(null,"¿Deseas tomar algo más?","Restaurante Lara",JOptionPane.YES_NO_OPTION);
+		    	 
+		    	 if (pedirmas == JOptionPane.NO_OPTION){
+					System.out.println("\nGracias por su pedido.");
+					System.exit(0);
+				}
+				else if (pedirmas == JOptionPane.YES_OPTION){
+					String pedidoextra = (String) JOptionPane.showInputDialog(null, "Escoge el siguiente plato deseado:", "Restaurante Lara", JOptionPane.QUESTION_MESSAGE, null, platos, platos[0]); 
+					System.out.println("\t" + pedidoextra);
+			    }
+		    } 
 	}
 
 }
