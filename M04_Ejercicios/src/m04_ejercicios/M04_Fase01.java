@@ -1,3 +1,15 @@
+/**
+* El programa RESTAURANTE ofrece un menú al cliente.
+* En esta fase, creamos dos ArrayList.
+* En uno irá la lista de platos, y en el otro, la lista de precios.
+* No los poblaremos hasta la siguiente fase. 
+* 
+* @author  Lara Saiz
+* @version 1.0
+* @since   2020-11-19 
+*/
+
+
 package m04_ejercicios;
 import java.util.*;
 

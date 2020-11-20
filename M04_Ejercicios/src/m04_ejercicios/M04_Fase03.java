@@ -1,27 +1,37 @@
 /**
 * El programa RESTAURANTE ofrece un menú al cliente.
 * El cliente puede solicitar tantos platos como desee.
-* El programa calcula el precio de los platos.
-* También sugiere la combinación óptima de billetes para pagarlos.
-* 
+* A diferencia de la fase anterior, 
+* El cliente no selecciona los platos disponibles en un drop-down.
+* Debe escribirlos por teclado, aun a riesgo de pedir algo fuera de carta.
+* De este modo podemos experimentar con las funcionalidades siguientes:
+* (1) Control de errores.
+* (2) Excepciones.
+* Para facilitar el proceso, los platos son ahora más sencillos.
+* Ejemplo: "ensalada" en lugar de "ensalada de la casa".
+*  
 * 
 * @author  Lara Saiz
 * @version 1.0
 * @since   2020-11-20 
 */
 
+
 package m04_ejercicios;
 import java.util.*;
 import javax.swing.*;
 
-public class M04_Fase02 {
+public class M04_Fase03 {
 	
 	public static void main(String[] args) {
 						
 		//Declaramos y poblamos el Array con los platos del menú.
+		//Para que sea más sencillo aplicar el control de errores, abreviamos el nombre de los platos y los escribimos en mayúsculas.
+		//También nos construimos un ArrayList auxiliar con los mismos contenidos para algunos cálculos.
 		
-			String[] platos = {"Ensalada de la casa", "Escalivada con anchoas", "Canelones de espinaca", "Tortilla de alcachofas", "Macarrones boloñesa", "Fajitas de pollo", "Alubias con chorizo", "Pepito de ternera"};
-					
+			String[] platos = {"ENSALADA", "ESCALIVADA", "CANELONES", "TORTILLA", "MACARRONES", "FAJITAS", "ALUBIAS", "TERNERA"};
+			List<String> platoslista = Arrays.asList(platos);
+			
 		//Declaramos y poblamos el Array con los precios de los platos.
 		
 			int[] precios = {40,100,20,50,70,150,120,30};
@@ -78,21 +88,23 @@ public class M04_Fase02 {
 		//También irá almacenando los precios de los platos.
 		//E irá sumándolos en un subtotal.
 		     
-		     while (pedirmas == JOptionPane.YES_OPTION) {	
+			while (pedirmas == JOptionPane.YES_OPTION){
 		    	 
-			    String platopedido = (String) JOptionPane.showInputDialog(null, "Escoge el plato deseado:","Restaurante Lara", JOptionPane.QUESTION_MESSAGE, null, platos, platos[0]); 
+			    String platopedido = (String) JOptionPane.showInputDialog(null, "Escoge el plato deseado.",JOptionPane.QUESTION_MESSAGE); 
 				 
 			    //Vamos poblando el ArrayList con los precios de cada plato pedido por el cliente.
-			     
-			    	preciopedido.add(menu.get(platopedido));
+			    //Siempre y cuando el plato introducido por teclado se corresponda con un plato del menú.
+			    
+			    if (platoslista.contains(platopedido.toUpperCase())) {
+			    	preciopedido.add(menu.get(platopedido.toUpperCase()));
 
 			    //Calculamos un subtotal, sumando esos precios.
 			     
-			    	subtotal = subtotal + menu.get(platopedido);
+			    	subtotal = subtotal + menu.get(platopedido.toUpperCase());
 		        
 			    //Le vamos recordando al cliente qué es lo que ha ido pidiendo.
 			     
-			    	System.out.println("\t" + platopedido + ":\t\t" + menu.get(platopedido) + "€" + "\t\tSubtotal: " + subtotal + "€");
+			    	System.out.println("\t" + platopedido.toUpperCase() + ":\t\t" + menu.get(platopedido.toUpperCase()) + "€" + "\t\tSubtotal: " + subtotal + "€");
 		        
 			    //Le vamos preguntando al cliente si desea añadir algún plato más. 
 			
@@ -101,12 +113,18 @@ public class M04_Fase02 {
 			     //Mientras (while) el cliente vaya diciendo que quiere pedir otro plato, el bucle seguirá iterando. 
 			     //La condición de ruptura del bucle es que el cliente diga que no quiere pedir más platos.
 		    	 
-				    if (pedirmas == JOptionPane.NO_OPTION){
+					
+			    	 if (pedirmas == JOptionPane.NO_OPTION){
 						System.out.println("\nGracias por tu pedido.\nTu cuenta asciende a " + subtotal + "€.");
 					}
-		     	}   
-		    
-			//El cliente ha solicitado todos los platos que deseaba.
+			    }
+			    else {
+			    	System.out.print("Vaya, nos hemos podido apuntarlo. ¿Has dicho " + platopedido.toUpperCase() + "? Vuelve a intentarlo o escoge otro plato, por favor.\n");
+			    	
+			    }
+			}
+
+			//El cliente ha solicitado todos los platos que deseaba y hemos comprobado que fueran correctos.
 		    //En la variable subtotal tenemos almacenado a cuánto sube la cuenta.
 		    //Vamos ahora a calcular la combinación óptima de billetes para pagar la cuenta.
 			//Declaramos e inicializamos una variables para cada billete.
