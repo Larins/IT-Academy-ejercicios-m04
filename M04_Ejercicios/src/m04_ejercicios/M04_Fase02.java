@@ -1,3 +1,6 @@
+//BRUJERÍAS :p
+
+
 package m04_ejercicios;
 import java.util.*;
 import javax.swing.*;
@@ -5,39 +8,34 @@ import javax.swing.*;
 public class M04_Fase02 {
 	
 	public static void main(String[] args) {
-				
-		//Declarar e inicializar las variables de los billetes.
-		
-		int eu5 = 5;
-		int eu10 = 10;
-		int eu20 = 20;
-		int eu50 = 50;
-		int eu100 = 100;
-		int eu200 = 200;
-		int eu500 = 500;
-		
-		//Declarar la variable para el precio total de la comida.
-		
-		int subtotal = 0;
-		
-		//Declarar y poblar el array con los platos del menú.
+						
+		//Declaramos y poblamos el array con los platos del menú.
 		
 		String[] platos = {"Ensalada de la casa", "Escalivada con anchoas", "Canelones de espinaca", "Tortilla de alcachofas", "Macarrones boloñesa", "Fajitas de pollo", "Alubias con chorizo", "Pepito de ternera"};
 					
-		//Declarar y poblar el array con los precios de los platos.
+		//Declaramos y poblamos el array con los precios de los platos.
 		
 		int[] precios = {40,100,20,50,70,150,120,30};
 		
-		//Integrar ambos arrays en un HashMap.
+		//Integramos ambos arrays en un HashMap.
 		
 		HashMap<String, Integer> menu = new HashMap<String, Integer>();
 		
 		for(int i= 0; i < platos.length; i++){
 			   menu.put(platos[i], precios[i]);
 			}
-
-		//Printamos el menú por consola.
+		//Damos la bienvenida a los clientes.
 		
+		int vercarta = JOptionPane.showConfirmDialog(null,"Bienvenid@ al restaurante Lara. \n¿Deseas ver la carta?","Restaurante Lara",JOptionPane.YES_NO_OPTION); 	 
+		
+		if (vercarta == JOptionPane.NO_OPTION){
+			System.out.println("De acuerdo, estoy en la barra si necesitas algo.");
+		}
+		
+		if (vercarta == JOptionPane.YES_OPTION) {
+			
+			//Printamos el menú por consola.
+			
 		     Set<String> keys = menu.keySet();
 		     Iterator<String> iter = keys.iterator();
 		     
@@ -48,6 +46,9 @@ public class M04_Fase02 {
 
 		        System.out.println("\t" + key + ":\t\t" + menu.get(key) + " €");
 		     }
+			}
+		
+
 		     
 		//Pasamos a tomarle nota al cliente.
 		     
@@ -61,6 +62,10 @@ public class M04_Fase02 {
 		     
 		     List<Integer> preciopedido = new ArrayList<Integer>();
 		
+		//Declaramos una variable donde se irán sumando esos precios.
+				
+				int subtotal = 0;
+				
 		//Lanzamos el bucle while, que tomará nota de los platos que sucesivamente vaya pidiendo el cliente.
 		     
 		     while (pedirmas == JOptionPane.YES_OPTION) {	
@@ -87,9 +92,53 @@ public class M04_Fase02 {
 		    	 
 			     if (pedirmas == JOptionPane.NO_OPTION){
 					System.out.println("\nGracias por tu pedido.\nTu cuenta asciende a " + subtotal + "€.");
-					System.exit(0);
+					
 				}
-
+			
 	        }   
+		    
+			//Vamos ahora a calcular la combinación óptima de billetes para pagar la cuenta.
+			
+			//Declaramos e inicializamos las variables de los billetes.
+			
+			int eu5 = 5;
+			int eu10 = 10;
+			int eu20 = 20;
+			int eu50 = 50;
+			int eu100 = 100;
+			int eu200 = 200;
+			int eu500 = 500;
+			
+			//Declaramos y poblamos un array con estos billetes estándar.
+			
+			int[] billetes = new int[]{eu500, eu200, eu100, eu50, eu20, eu10, eu5};
+			
+			//Declaramos un array tan largo como diferentes billetes hay (7). 
+			//Cada posición de este array está relacionada con las posiciones del array billetes.
+			//Con un loop, lo poblaremos con números correspondientes al número de billetes de cada tipo.
+			//Ejemplo: si usamos 2 billetes de 5€, billetesusados[0] = 2.
+			
+			int[] billetesusados = new int[7];
+			
+			//int preciofinal = 650;
+			
+			//Usamos un for para calcular los billetes óptimos (número de billetes de cada tipo):
+			
+			for (int i = 0; i< 7; i++) {
+				if (subtotal >= billetes[i]) {
+					billetesusados[i] = subtotal/billetes[i];
+					subtotal = subtotal - billetesusados[i] * billetes[i];
+				}
+			}
+			
+			//Usamos otro for para printarlo por consola.
+			
+			System.out.println("\nTe recomendamos que pagues con estos billetes: ");
+			for (int i=0; i<7; i++) {
+				System.out.println("\t" + billetes[i] + "€:\t" + billetesusados[i] + " billete/s." );
+				
+			}
+			System.out.println("\n¡Gracias por tu visita!\nEsperamos verte de nuevo muy pronto ;)" );
+		     
 	}
 }
