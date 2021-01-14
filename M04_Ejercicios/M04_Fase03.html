@@ -1,0 +1,160 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="description" content="Ofrecemos un menú, tomamos nota, calculamos la cuenta y la combinación óptima de billetes para pagar.">
+	<meta name="author" content="Lara Saiz">
+		
+	<title>M04 Fase 03 - Restaurante</title>
+</head>
+<body>
+
+		<script>
+
+		/**
+		* El programa RESTAURANTE ofrece un menú al cliente.
+		* El cliente puede solicitar tantos platos como desee.
+		* El programa calcula el precio de los platos.
+		* También sugiere la combinación óptima de billetes para pagarlos.
+		*/
+
+		/**
+		QUÉ DESARROLLAMOS EN ESTA FASE
+		* Todo lo comentado arriba.
+		* SÍ se revisa que el plato entrado esté en el menú.
+		* Si no lo está, no se acepta.
+		* En su lugar, se sugiere al cliente que revise la carta y haga una nueva entrada.
+		*/
+
+		//Declaramos y poblamos el Array con los platos del menú.
+
+		var platos = new Array("ENSALADA", "ESCALIVADA", "CANELONES", "TORTILLA", "MACARRONES", "FAJITAS", "ALUBIAS", "TERNERA");
+
+		//Declaramos y poblamos el Array con los precios de los platos.
+		
+		var precios = new Array (40,100,20,50,70,150,120,30);
+
+		//Integramos ambos Arrays en un HashMap.
+		
+		var menu = new Map();
+
+		for(var i= 0; i < platos.length; i++){
+			   menu.set(platos[i], precios[i]);
+			}
+
+		//Damos la bienvenida a los clientes.
+
+		var vercarta = confirm("Bienvenid@ al Restaurante Lara. \n¿Deseas ver la carta? \nPulsa ACEPTAR y abre la consola desde INSPECCIONAR ELEMENTO."); 	
+		
+		if (vercarta == false) {
+			alert("De acuerdo, estoy en la barra si necesitas algo.");
+			window.stop();
+		}
+		else {
+
+			//Printamos el menú por consola.
+			
+			console.log("RESTAURANTE LARA\n\nMENÚ A LA CARTA\n\nEscoge el plato deseado:\n\n");			
+		    for (const [key, value] of menu.entries()) {
+				 console.log("\t" + key + "\t" + value + "€");
+			}
+
+			//Pasamos a tomarle nota al cliente.
+			     
+			console.log("\n\nApuntaremos aquí los platos que nos indiques:\n");
+		}
+
+			//Declaramos la variable que permitirá seguir iterando o terminar el bucle.
+
+			var platopedido = new Array();
+			var preciopedido = new Array();
+			var subtotal = 0;
+
+			//Lanzamos el bucle while, que tomará nota de los platos que sucesivamente vaya pidiendo el cliente.
+			//También irá almacenando los precios de los platos.
+			//E irá sumándolos en un subtotal.
+
+            while (confirm("¿Qué quieres pedir? \nSi no quieres continuar con el pedido, pulsa CANCELAR") == true) {  
+			
+			//Le vamos preguntando al cliente si desea añadir algún plato más. 
+			//Mientras (while) el cliente vaya diciendo que quiere pedir otro plato, el bucle seguirá iterando. 
+			//La condición de ruptura del bucle es que el cliente diga que no quiere pedir más platos.
+                
+            	//Vamos poblando el ArrayList con los precios de cada plato pedido por el cliente.
+                platopedido = prompt("Indica el plato deseado, por favor.","MACARRONES").toUpperCase();
+
+                if (menu.has(platopedido) == true) {
+
+                	//Vamos poblando el ArrayList con los precios de cada plato pedido por el cliente.
+                	preciopedido = menu.get(platopedido); 
+
+                	//Calculamos un subtotal, sumando esos precios.
+                	subtotal = subtotal + menu.get(platopedido);
+
+                	//Le vamos recordando al cliente qué es lo que ha ido pidiendo.
+                     console.log("\t" + platopedido + "\t" + menu.get(platopedido) + "€" + "\t\t\tSubtotal: " + subtotal + "€");
+
+                } else {
+
+                	//Comprobamos que los platos que introduce el cliente están en el menú.
+                	//Se solicita una nueva entrada caso de no reconocer la palabra introducida.
+                	alert("¿Has dicho " + platopedido + "?\nEl sistema no reconoce el plato.\nPor favor, comprueba la carta y vuelve a introducir el plato que deseas.");
+                }
+            }
+            //Indicamos al cliente a cuánto sube la cuenta.
+            console.log("\nGracias por tu pedido.\nTu cuenta asciende a " + subtotal + "€.")
+
+
+
+			//El cliente ha solicitado todos los platos que deseaba.
+		    //En la variable subtotal tenemos almacenado a cuánto sube la cuenta.
+		    //Vamos ahora a calcular la combinación óptima de billetes para pagar la cuenta.
+			//Declaramos e inicializamos una variables para cada billete.
+
+			var eu5 = 5;
+			var eu10 = 10;
+			var eu20 = 20;
+			var eu50 = 50;
+			var eu100 = 100;
+			var eu200 = 200;
+			var eu500 = 500;
+
+			//Declaramos y poblamos un array con estos billetes.
+
+			var billetes = new Array(eu500,eu200,eu100,eu50,eu20,eu10,eu5);
+
+			//Declaramos un array tan largo como diferentes billetes hay (7). 
+			//Cada posición de este array está relacionada con las posiciones del Array que contiene los valores de los billetes.
+			//Con un bucle, lo poblaremos con números correspondientes al número de billetes de cada tipo.
+			//Ejemplo: si usamos 2 billetes de 5€, billetes[0]=5 y billetesusados[0]=2.
+			
+			var billetesusados = new Array(0,0,0,0,0,0,0);
+
+			//Usamos un bucle for para calcular los billetes óptimos (número de billetes de cada tipo):
+			
+				for (var i = 0; i< 7; i++) {
+					if (subtotal >= billetes[i]) {
+						billetesusados[i] = Math.floor(subtotal/billetes[i]);
+						subtotal = subtotal - (billetesusados[i] * billetes[i]);
+					}
+				}
+			
+			//Usamos otro bucle for para printarlo por consola.
+			
+				console.log("\nTe recomendamos que pagues con estos billetes: ");
+				
+				for (var j=0; j<7; j++) {
+
+					console.log("\t" + billetes[j] + "€:\t" + billetesusados[j] + " billete/s." );
+				}
+			
+			//Printamos un mensaje de despedida.
+			
+				console.log("\n¡Gracias por tu visita!\nEsperamos verte de nuevo muy pronto ;)" );
+		     
+
+		</script>
+</body>
+</html>
